@@ -1,7 +1,4 @@
-
-
 import java.util.Scanner;
-
 
 public class mainclass 
 {
@@ -11,8 +8,9 @@ public class mainclass
 
 	//Erzeugen von Anfangsbenzinwrt und Zielkilometerzahl
 	int anfangsbenzinwert=10+(int)(Math.round(Math.random()*90));
-	int zielkilometer=Math.round(anfangsbenzinwert*(21+(int)(Math.random()*4)));
-
+	int zielkilometer=Math.round(anfangsbenzinwert*(20+(int)(Math.random()*8)));
+	
+	double liegenbleibkm=0;
 
 	//Spielerauto erzeugen
 	System.out.println("Herzlich willkommen zu AutoRace 1.0!!");
@@ -24,12 +22,10 @@ public class mainclass
 	auto autos[]=new auto[11];
 	for (int i=0;i<10;i++)
 	{
-		autos[i]=new auto(anfangsbenzinwert,10+(int)(Math.random()*120),i+1,"Auto "+ i);
+		autos[i]=new auto(anfangsbenzinwert,50+(int)((6+2*Math.random())*(i+1)),i+1,"Auto "+ i);
 	}
 	autos[10]=spielerauto;
-	//Autos Nummern geben
-
-
+	
 	String[] namen=new String[11];
 	for (int i=0;i<11;i++)
 	{
@@ -66,14 +62,19 @@ public class mainclass
 
 				System.out.println(" ");
 			}
-			else {
-				System.out.println("Du hast nich genug Benzin im Tank um 1 Stunde mit dieser Geschwindigkeit zu fahren.");
-				//System.out.println("Mit dieser Geschwindigkeit könntest du es bis ins Ziel schaffen, aber leider ist dein Tank vorher leer.");
-				System.out.println("Dein Auto bleibt mitten auf der Strecke liegen. ");
-				//INKORREKT ! System.out.println("Dein Auto bleibt "+(zielkilometer-spielerauto.benzin/((0.000483*(spielerauto.geschwindigkeit)*(spielerauto.geschwindigkeit) - 0.0326*(spielerauto.geschwindigkeit) + 2.1714 + 66/(spielerauto.geschwindigkeit))/100))+" km vor dem Ziel stehen.");
-				System.out.println(" ");
-				System.out.println("Du hast verloren!");
-				System.exit(0);
+			else 
+			{	liegenbleibkm=zielkilometer-spielerauto.kilometer-spielerauto.benzin/((0.000483*(spielerauto.geschwindigkeit)*(spielerauto.geschwindigkeit) - 0.0326*(spielerauto.geschwindigkeit) + 2.1714 + 66/(spielerauto.geschwindigkeit))/100);
+			liegenbleibkm=liegenbleibkm*100;
+			liegenbleibkm=Math.round(liegenbleibkm);
+			liegenbleibkm=liegenbleibkm/100;
+			System.out.println("Du fährst so vor dich hin und denkst an nichts böses, da merkst du auf einmal,");
+			System.out.println("dass dein Auto immer langsamer wird bis es schließlich ganz stehen bleibt.");
+			//System.out.println("Mit dieser Geschwindigkeit könntest du es bis ins Ziel schaffen, aber leider ist dein Tank vorher leer.");
+			System.out.println("Dein Auto bleibt mitten auf der Strecke liegen. ");
+			System.out.println("Dein Auto bleibt "+liegenbleibkm+" km vor dem Ziel stehen.");
+			System.out.println(" ");
+			System.out.println("Du hast verloren!");
+			System.exit(0);
 			}
 		}
 		else 
@@ -90,10 +91,14 @@ public class mainclass
 
 			else
 			{
-				System.out.println("Du hast nich genug Benzin im Tank um 1 Stunde mit dieser Geschwindigkeit zu fahren.");
+				liegenbleibkm=zielkilometer-spielerauto.kilometer-spielerauto.benzin/((0.000483*(spielerauto.geschwindigkeit)*(spielerauto.geschwindigkeit) - 0.0326*(spielerauto.geschwindigkeit) + 2.1714 + 66/(spielerauto.geschwindigkeit))/100);
+				liegenbleibkm=liegenbleibkm*100;
+				liegenbleibkm=Math.round(liegenbleibkm);
+				liegenbleibkm=liegenbleibkm/100;
+				System.out.println("Du fährst so vor dich hin und denkst an nichts böses, da merkst du auf einmal,");
+				System.out.println("dass dein Auto immer langsamer wird bis es schließlich ganz stehen bleibt.");
 				//System.out.println("Mit dieser Geschwindigkeit könntest du es bis ins Ziel schaffen, aber leider ist dein Tank vorher leer.");
-				System.out.println("Dein Auto bleibt mitten auf der Strecke liegen. ");
-				//System.out.println("Dein Auto bleibt "+zielkilometer-spielerauto.benzin/((0.000483*(spielerauto.geschwindigkeit)*(spielerauto.geschwindigkeit) - 0.0326*(spielerauto.geschwindigkeit) + 2.1714 + 66/(spielerauto.geschwindigkeit))/100)+" km vor dem Ziel stehen.")
+				System.out.println("Du bleibst "+liegenbleibkm+" km vor dem Ziel auf der Strecke liegen.");
 				System.out.println(" ");
 				System.out.println("Du hast verloren!");
 				System.exit(0);
@@ -120,21 +125,21 @@ public class mainclass
 					autos[k].gesamtkilometer();
 
 				}
-				}
-				else 
+			}
+			else 
+			{
+
 				{
-
+					//Zieleinfahrt
+					//Prüfe ob das der spieler ins ziel kommen kann
+					if (autos[k].benzin-(0.000483*(autos[k].geschwindigkeit)*(autos[k].geschwindigkeit) - 0.0326*(autos[k].geschwindigkeit) + 2.1714 + 66/(autos[k].geschwindigkeit))*(zielkilometer-autos[k].kilometer)/100 >= 0)
 					{
-						//Zieleinfahrt
-						//Prüfe ob das der spieler ins ziel kommen kann
-						if (autos[k].benzin-(0.000483*(autos[k].geschwindigkeit)*(autos[k].geschwindigkeit) - 0.0326*(autos[k].geschwindigkeit) + 2.1714 + 66/(autos[k].geschwindigkeit))*(zielkilometer-autos[k].kilometer)/100 >= 0)
-						{
-							autos[k].fahrtbisinsziel(zielkilometer);
-						}
+						autos[k].fahrtbisinsziel(zielkilometer);
 					}
-
 				}
-			
+
+			}
+
 		}
 	}
 	//SIEGER
@@ -150,7 +155,7 @@ public class mainclass
 	}
 
 	arraysortieren.main(kilometerstand,namen,zeiten);
-	if (spielerauto.kilometer>kilometerstand[9])
+	if (spielerauto.name==namen[10])
 	{
 		System.out.println("Gratulation, du warst der Schnellste!");
 		System.out.println("Hier die Ergebnistabelle:");
@@ -191,24 +196,6 @@ public class mainclass
 	table2(kilometerstand,namen,zeiten);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public static void table2(int[] kilometerstand,String[] namen,double[] zeiten)
 	{
 		System.out.println("Name \t Kilometerstand\tZeit");
@@ -218,42 +205,6 @@ public class mainclass
 			System.out.println(namen[i] + "\t"+kilometerstand[i]+"\t"+zeiten[i]+"h");
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

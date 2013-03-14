@@ -52,7 +52,7 @@ public class auto {
 	public void fahrenbisinsziel(int zielkilometer)
 	{
 		System.out.println("Dein Auto fährt 1 Stunde mit "+geschwindigkeit+" km/h.");
-zeit++;
+		zeit++;
 		zeit=zeit -((zielkilometer-kilometer*1.000)/geschwindigkeit);
 		zeitrunden();
 		sonderfall(zielkilometer);
@@ -68,13 +68,12 @@ zeit++;
 	}
 	public void fahrtbisinsziel(int zielkilometer)
 	{
-zeit++;
+		zeit++;
 		zeit=zeit -((zielkilometer-kilometer*1.000)/geschwindigkeit);
 		zeitrunden();
 		sonderfall(zielkilometer);
 		runden();
 		kilometersonderfall(zielkilometer);
-
 
 	}
 
