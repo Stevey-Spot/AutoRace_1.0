@@ -5,7 +5,6 @@ public class arraysortieren {
 		int temp;
 		String temp2;
 		double temp3;
-
 		boolean fixed=false;
 		while (fixed==false)
 		{
@@ -27,8 +26,25 @@ public class arraysortieren {
 					zeiten[i+1]=temp3;
 					fixed=false;
 				}
+				else if (kilometerstand[i]==kilometerstand[i+1])
+					if (zeiten[i]<zeiten[i+1])
+					{
+						temp=kilometerstand[i];
+						temp2=namen[i];
+						temp3=zeiten[i];
+						
+						kilometerstand[i]=kilometerstand[i+1];
+						namen[i]=namen[i+1];
+						zeiten[i]=zeiten[i+1];
+						
+						kilometerstand[i+1]=temp;
+						namen[i+1]=temp2;
+						zeiten[i+1]=temp3;
+						fixed=false;
+					}
 			}
 		}
+		
 	}
 
 }
