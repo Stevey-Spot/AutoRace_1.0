@@ -51,7 +51,7 @@ public class auto {
 	}
 	public void fahrenbisinsziel(int zielkilometer)
 	{
-		System.out.println("Dein Auto fährt 1 Stunde mit "+geschwindigkeit+" km/h.");
+		System.out.println("Dein Auto faehrt 1 Stunde mit "+geschwindigkeit+" km/h.");
 		zeit++;
 		zeit=zeit -((zielkilometer-kilometer*1.000)/geschwindigkeit);
 		zeitrunden();
@@ -60,7 +60,7 @@ public class auto {
 		kilometersonderfall(zielkilometer);
 
 		System.out.println("Du hast noch "+benzin+" Liter im Tank.");
-		System.out.println("Du hast bisher eine Gesamtstrecke von "+kilometer+" km zurückgelegt.");
+		System.out.println("Du hast bisher eine Gesamtstrecke von "+kilometer+" km zurueckgelegt.");
 		System.out.println("Du bist im Ziel !!");
 
 		System.out.println(" ");
@@ -75,6 +75,25 @@ public class auto {
 		runden();
 		kilometersonderfall(zielkilometer);
 
+	}
+
+	public void showProgress (int zielkilometer){
+		//Sonst bekommt man Probleme mit den Datenformaten
+		double zielkilometer_ = (double) zielkilometer;
+		//Wie lange soll die modellierte Strecke sein?
+		double modelstreckenlaenge = 70;
+
+		System.out.print(name + "\t");
+		double quotient = kilometer/zielkilometer_;
+		double made = (quotient*modelstreckenlaenge);
+		double notMade = modelstreckenlaenge - made;
+		for (int i = 0; i < made; i++){
+			System.out.print("I");
+		}
+		for (int i = 0; i < notMade; i++){
+			System.out.print("-");
+		}
+		System.out.println();
 	}
 
 }
