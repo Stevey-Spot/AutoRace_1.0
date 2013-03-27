@@ -39,8 +39,7 @@ public class mainclass
 		//Geschwindigkeit fuer die naechste Stunde eingeben
 		System.out.println("Bitte gebe eine Geschwindigkeit fuer dein Auto an, mit der es die naechste Stunde fahren soll (Zwischen 10 und 130):");
 
-		int[] erlaubt2 = {10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130};
-		spielerauto.geschwindigkeit=letUserChoose(erlaubt2,myScanner);
+		spielerauto.geschwindigkeit=letUserChoose(10, 130, myScanner);
 
 
 
@@ -48,7 +47,7 @@ public class mainclass
 		{
 			//Pruefe ob das Benzin ausreicht fuer 1 Stunde fahren
 			//Falls ja -> fahren; falls nein -> zieleinfahrt?	
-			if (spielerauto.benzin-(0.000483*(spielerauto.geschwindigkeit)*(spielerauto.geschwindigkeit) - 0.0326*(spielerauto.geschwindigkeit) + 2.1714 + 66/(spielerauto.geschwindigkeit))*spielerauto.geschwindigkeit/100 >= 0)
+			if (spielerauto.benzin >= spielerauto.benzinVerbrauch())
 			{
 				System.out.println(" ");
 				System.out.println("Dein Auto faehrt 1 Stunde mit "+spielerauto.geschwindigkeit+" km/h.");
@@ -63,7 +62,7 @@ public class mainclass
 				System.out.println(" ");
 			}
 			else 
-			{	liegenbleibkm=zielkilometer-spielerauto.kilometer-spielerauto.benzin/((0.000483*(spielerauto.geschwindigkeit)*(spielerauto.geschwindigkeit) - 0.0326*(spielerauto.geschwindigkeit) + 2.1714 + 66/(spielerauto.geschwindigkeit))/100);
+			{	liegenbleibkm=zielkilometer-spielerauto.kilometer-spielerauto.benzin/(spielerauto.benzinVerbrauch());
 			liegenbleibkm=liegenbleibkm*100;
 			liegenbleibkm=Math.round(liegenbleibkm);
 			liegenbleibkm=liegenbleibkm/100;
@@ -91,7 +90,7 @@ public class mainclass
 
 			else
 			{
-				liegenbleibkm=zielkilometer-spielerauto.kilometer-spielerauto.benzin/((0.000483*(spielerauto.geschwindigkeit)*(spielerauto.geschwindigkeit) - 0.0326*(spielerauto.geschwindigkeit) + 2.1714 + 66/(spielerauto.geschwindigkeit))/100);
+				liegenbleibkm=zielkilometer-spielerauto.kilometer-spielerauto.benzin/spielerauto.benzinVerbrauch();
 				liegenbleibkm=liegenbleibkm*100;
 				liegenbleibkm=Math.round(liegenbleibkm);
 				liegenbleibkm=liegenbleibkm/100;
@@ -121,19 +120,24 @@ public class mainclass
 		for (int k=0;k<10;k++)
 		{
 
-			if ((zielkilometer-autos[k].kilometer)> autos[k].geschwindigkeit)
+			if ((zielkilometer-autos[k].kilometer) > autos[k].geschwindigkeit)
 			{
-				if (autos[k].benzin-(0.000483*(autos[k].geschwindigkeit)*(autos[k].geschwindigkeit) - 0.0326*(autos[k].geschwindigkeit) + 2.1714 + 66/(autos[k].geschwindigkeit))*autos[k].geschwindigkeit/100 > 0)
+				if (autos[k].benzin >= autos[k].benzinVerbrauch())
 
 				{
 					autos[k].fahren();
 					autos[k].runden();
 					autos[k].gesamtkilometer();
 
-					//How far has the car cone?
-					autos[k].showProgress(zielkilometer);
-
 				}
+
+				else{
+					//Eigentlich ungenau - man muesste den Rest vom Benzin verfahren
+					autos[k].benzin = 0;
+				}
+
+			//How far has the car cone?
+			autos[k].showProgress(zielkilometer);
 			}
 			else 
 			{
@@ -141,7 +145,7 @@ public class mainclass
 				{
 					//Zieleinfahrt
 					//Pruefe ob das der spieler ins ziel kommen kann
-					if (autos[k].benzin-(0.000483*(autos[k].geschwindigkeit)*(autos[k].geschwindigkeit) - 0.0326*(autos[k].geschwindigkeit) + 2.1714 + 66/(autos[k].geschwindigkeit))*(zielkilometer-autos[k].kilometer)/100 >= 0)
+					if (autos[k].benzin >= autos[k].benzinVerbrauch())
 					{
 						autos[k].fahrtbisinsziel(zielkilometer);
 					}
@@ -167,6 +171,14 @@ public class mainclass
 	if (spielerauto.name==namen[10])
 	{
 		System.out.println("Gratulation, du warst der Schnellste!");
+
+
+		System.out.println("      .---;-,                      ");
+		System.out.println("   __/_,{)|__;._                   ");
+		System.out.println(".\"` _     :  _  `.  .:::;.    .::'");
+		System.out.println("'--(_)------(_)--' `      '::'     ");
+
+
 		System.out.println("Hier die Ergebnistabelle:");
 
 	}
@@ -217,8 +229,13 @@ public class mainclass
 
 
 
-
-
+	private static int letUserChoose(int minAllowed, int maxAllowed, Scanner myScanner){
+		int[] allowed = new int[maxAllowed - minAllowed + 1];
+		for (int i = 0; i < allowed.length; i++ ) {
+			allowed[i] = minAllowed + i;
+		}
+		return letUserChoose(allowed, myScanner);
+	}
 
 	private static int letUserChoose(int[] allowed, Scanner myScanner){
 		System.out.print("Geschwindigkeit in km/h: ");

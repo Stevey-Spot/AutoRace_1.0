@@ -1,8 +1,8 @@
 
 
 public class auto {
-	public  double benzin;
-	public  int geschwindigkeit;
+	public double benzin;
+	public int geschwindigkeit;
 	public int kilometer;
 	public double zeit;
 	public int nummer;
@@ -21,7 +21,7 @@ public class auto {
 
 	public void fahren()
 	{
-		benzin=benzin-(0.000483*(geschwindigkeit)*(geschwindigkeit) - 0.0326*(geschwindigkeit) + 2.1714 + 66/(geschwindigkeit))*geschwindigkeit/100;
+		benzin = benzin - benzinVerbrauch(geschwindigkeit);
 		zeit++;
 	}
 	public void runden()
@@ -84,16 +84,36 @@ public class auto {
 		double modelstreckenlaenge = 70;
 
 		System.out.print(name + "\t");
+
+		// road behind car
 		double quotient = kilometer/zielkilometer_;
 		double made = (quotient*modelstreckenlaenge);
 		double notMade = modelstreckenlaenge - made;
 		for (int i = 0; i < made; i++){
 			System.out.print("I");
 		}
+		// print > for a moving car and * for one with no gas.
+		if (benzin > 0){
+			System.out.print(">");
+		} else {
+			System.out.print("*");
+		}
+
+		//road in front of car
 		for (int i = 0; i < notMade; i++){
 			System.out.print("-");
 		}
 		System.out.println();
+	}
+
+	public double benzinVerbrauch (){
+		return benzinVerbrauch(this.geschwindigkeit);
+	}
+
+
+	public double benzinVerbrauch (int geschwindigkeit){
+		double benzinVerbrauch = (0.000483*(geschwindigkeit)*(geschwindigkeit) - 0.0326*(geschwindigkeit) + 2.1714 + 66/(geschwindigkeit))*geschwindigkeit/100.0;
+		return benzinVerbrauch;
 	}
 
 }
